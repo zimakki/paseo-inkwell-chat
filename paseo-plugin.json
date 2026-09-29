@@ -1,0 +1,6 @@
+{
+  "id": "paseo-inkwell-chat",
+  "requirements": {
+    "paseo": ">=0.10.1"
+  }
+}

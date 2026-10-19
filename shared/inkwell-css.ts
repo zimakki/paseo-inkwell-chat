@@ -1,5 +1,5 @@
-// The stylesheet Zi approved live in Chrome on 2026-09-29. Edit it here, then run
-// `paseo plugin reload paseo-inkwell-chat`.
+// The stylesheet Zi approved live in Chrome on 2026-09-29, retargeted for Paseo 0.12.0. Edit it
+// here, then run `paseo plugin reload paseo-inkwell-chat`.
 export const INKWELL_CSS: string = `
 :root {
   --ink-h1: #f0c674;
@@ -29,19 +29,20 @@ export const INKWELL_CSS: string = `
   --ink-tool-mcp: #41a6b5;
 }
 
-[data-paseo-markdown-tag="h1"],
-[data-paseo-markdown-tag="h1"] * { color: var(--ink-h1) !important; }
-[data-paseo-markdown-tag="h2"],
-[data-paseo-markdown-tag="h2"] * { color: var(--ink-h2) !important; }
-[data-paseo-markdown-tag="h3"],
-[data-paseo-markdown-tag="h3"] * { color: var(--ink-h3) !important; }
-[data-paseo-markdown-tag="h4"],
-[data-paseo-markdown-tag="h4"] * { color: var(--ink-h4) !important; }
+[data-testid="assistant-message"] h1,
+[data-testid="assistant-message"] h1 * { color: var(--ink-h1) !important; }
+[data-testid="assistant-message"] h2,
+[data-testid="assistant-message"] h2 * { color: var(--ink-h2) !important; }
+[data-testid="assistant-message"] h3,
+[data-testid="assistant-message"] h3 * { color: var(--ink-h3) !important; }
+[data-testid="assistant-message"] h4,
+[data-testid="assistant-message"] h4 * { color: var(--ink-h4) !important; }
 
-[data-paseo-markdown-tag="strong"],
-[data-paseo-markdown-tag="strong"] * { color: var(--ink-bold) !important; }
+[data-testid="assistant-message"] strong,
+[data-testid="assistant-message"] strong * { color: var(--ink-bold) !important; }
 
-[data-paseo-markdown-tag="code"] {
+/* Inline code only. :where() keeps the specificity low so the link rule below still wins. */
+[data-testid="assistant-message"] code:not(:where(pre *, [data-paseo-markdown-tag="pre"] *)) {
   color: var(--ink-code) !important;
   background-color: var(--ink-code-bg) !important;
   border: 1px solid var(--ink-code-border) !important;
@@ -49,15 +50,15 @@ export const INKWELL_CSS: string = `
   padding: 0 4px !important;
 }
 
-[data-paseo-markdown-tag] a,
-[data-paseo-markdown-tag] a * { color: var(--ink-link) !important; }
+[data-testid="assistant-message"] a,
+[data-testid="assistant-message"] a * { color: var(--ink-link) !important; }
 
-[data-paseo-markdown-tag="blockquote"] {
+[data-testid="assistant-message"] blockquote {
   border-left: 3px solid var(--ink-quote-bar) !important;
   background-color: var(--ink-quote-bg) !important;
 }
 
-[data-paseo-markdown-list-marker="true"] { color: var(--ink-bullet) !important; }
+[data-testid="assistant-message"] li::marker { color: var(--ink-bullet) !important; }
 
 [data-inkwell-tool="shell"] { --ink-tool: var(--ink-tool-shell); }
 [data-inkwell-tool="read"] { --ink-tool: var(--ink-tool-read); }

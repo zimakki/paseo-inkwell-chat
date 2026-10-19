@@ -25,7 +25,7 @@ The colors are tuned for a dark Paseo theme. There is no light palette yet.
 
 ## Install
 
-You need Paseo 0.10.1 or later, with plugins enabled (Settings → Plugins).
+You need Paseo 0.12.0 or later, with plugins enabled (Settings → Plugins).
 
 ```bash
 git clone https://github.com/zimakki/paseo-inkwell-chat.git
@@ -42,8 +42,9 @@ web UI. On iOS and Android it does nothing.
 
 `client/web.ts` does two things when the plugin starts:
 
-1. It adds one `<style id="inkwell-chat">` element. Reply markdown already carries
-   `data-paseo-markdown-tag="h1|strong|code|..."` attributes, which the CSS targets directly.
+1. It adds one `<style id="inkwell-chat">` element. Paseo renders reply markdown as plain HTML
+   (`h1`, `strong`, `code`, `a`, ...) inside each assistant message, and the CSS targets those
+   elements.
 2. It starts a `MutationObserver` that reads each tool row's label and writes it back as
    `data-inkwell-tool="shell"`, because CSS can't match on text. It also marks the row's label and
    header icon, so expanded details and error icons keep Paseo's colors.
@@ -53,17 +54,21 @@ attribute it added.
 
 ## Paseo internals it depends on
 
-None of these are part of the plugin API. They were checked against Paseo 0.10.1. If a Paseo update
+None of these are part of the plugin API. They were checked against Paseo 0.12.0. If a Paseo update
 renames them, the colors disappear, but nothing breaks.
 
-| Hook                                                                                      | Used for                                |
-| ----------------------------------------------------------------------------------------- | --------------------------------------- |
-| `[data-paseo-markdown-tag="h1"]` and the other tags (`strong`, `code`, `blockquote`, ...) | reply markdown                          |
-| `[data-paseo-markdown-tag] a`                                                             | links, including file-path code links   |
-| `[data-paseo-markdown-list-marker="true"]`                                                | list bullets                            |
-| `[data-testid="tool-call-badge"]`                                                         | a tool row                              |
-| first element with its own text inside a tool row                                         | the tool label (`Shell`, `Read`, ...)   |
-| first `svg` inside a tool row                                                             | the tool icon, colored through `stroke` |
+| Hook                                                         | Used for                                |
+| ------------------------------------------------------------ | --------------------------------------- |
+| `[data-testid="assistant-message"]`                          | scopes every markdown rule to replies   |
+| `h1`–`h4`, `strong`, `code`, `a`, `blockquote`, `li::marker` | reply markdown                          |
+| `pre` and `[data-paseo-markdown-tag="pre"]`                  | fenced code blocks, left uncolored      |
+| `[data-testid="tool-call-badge"]`                            | a tool row                              |
+| first element with its own text inside a tool row            | the tool label (`Shell`, `Read`, ...)   |
+| first `svg` inside a tool row                                | the tool icon, colored through `stroke` |
+
+Since 0.12, rows for Paseo's own MCP tools show friendly labels such as `Run JavaScript` instead
+of `mcp__paseo__*`. `shared/tool-key.ts` lists them, copied from `PASEO_TOOL_CATALOG` in Paseo's
+app bundle, so a new Paseo tool stays uncolored until it's added there.
 
 A non-English Paseo UI shows different tool labels, so tool rows stay uncolored. So do labels the
 plugin doesn't know, such as `Explore`.

@@ -15,9 +15,78 @@ export const TOOL_KEYS: readonly string[] = [
   "mcp",
 ];
 
+// Since Paseo 0.12, rows for Paseo's own MCP tools show these labels instead of mcp__paseo__*.
+// They come from PASEO_TOOL_CATALOG in Paseo's app bundle.
+const PASEO_MCP_LABELS: ReadonlySet<string> = new Set(
+  [
+    "Create agent",
+    "Send message",
+    "Check agent",
+    "Read agent activity",
+    "List agents",
+    "Update agent",
+    "Set agent mode",
+    "Cancel agent",
+    "Archive agent",
+    "Kill agent",
+    "List permissions",
+    "Respond to permission",
+    "Create workspace",
+    "List workspaces",
+    "Rename workspace",
+    "Archive workspace",
+    "List scripts",
+    "Start script",
+    "Stop script",
+    "Create terminal",
+    "List terminals",
+    "Read terminal",
+    "Send keys",
+    "Kill terminal",
+    "Create schedule",
+    "Create heartbeat",
+    "Update schedule",
+    "List schedules",
+    "Inspect schedule",
+    "Read schedule logs",
+    "Run schedule",
+    "Pause schedule",
+    "Resume schedule",
+    "Delete schedule",
+    "Delete heartbeat",
+    "List providers",
+    "List models",
+    "List profiles",
+    "Inspect provider",
+    "List browser tabs",
+    "Open browser tab",
+    "Close browser tab",
+    "Navigate",
+    "Go back",
+    "Go forward",
+    "Reload page",
+    "Snapshot page",
+    "Take screenshot",
+    "Click element",
+    "Hover element",
+    "Drag element",
+    "Fill field",
+    "Select option",
+    "Type text",
+    "Press key",
+    "Upload files",
+    "Wait for page",
+    "Scroll page",
+    "Resize browser",
+    "Read browser logs",
+    "Run JavaScript",
+  ].map((label) => label.toLowerCase()),
+);
+
 export function toolKeyFromLabel(label: string): string | null {
   // MCP tool rows show the raw tool name, such as mcp__chrome-devtools__click.
   if (label.trim().startsWith("mcp__")) return "mcp";
+  if (PASEO_MCP_LABELS.has(label.trim().toLowerCase().replace(/\s+/g, " "))) return "mcp";
   const key = label.trim().toLowerCase().replace(/\s+/g, "-");
   return TOOL_KEYS.includes(key) ? key : null;
 }

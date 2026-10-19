@@ -17,3 +17,9 @@ test("gives every tool key a color", () => {
     );
   }
 });
+
+test("targets markdown by element, since Paseo 0.12 only tags code blocks", () => {
+  const tags = [...INKWELL_CSS.matchAll(/data-paseo-markdown-tag="([^"]+)"/g)].map((m) => m[1]);
+  assert.deepEqual([...new Set(tags)], ["pre"]);
+  assert.ok(!INKWELL_CSS.includes("data-paseo-markdown-list-marker"));
+});

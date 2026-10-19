@@ -23,6 +23,12 @@ test("maps every MCP tool row to one key", () => {
   assert.equal(toolKeyFromLabel("Mcp tools"), null);
 });
 
+test("maps Paseo's own MCP tool labels to mcp", () => {
+  assert.equal(toolKeyFromLabel("Run JavaScript"), "mcp");
+  assert.equal(toolKeyFromLabel("Open browser tab"), "mcp");
+  assert.equal(toolKeyFromLabel("  create   AGENT "), "mcp");
+});
+
 test("ignores surrounding whitespace and case", () => {
   assert.equal(toolKeyFromLabel("  Shell \n"), "shell");
   assert.equal(toolKeyFromLabel("WORKTREE   SETUP"), "worktree-setup");
@@ -31,7 +37,7 @@ test("ignores surrounding whitespace and case", () => {
 test("returns null for labels it does not know", () => {
   assert.equal(toolKeyFromLabel(""), null);
   assert.equal(toolKeyFromLabel("Explore"), null);
-  assert.equal(toolKeyFromLabel("Create agent"), null);
+  assert.equal(toolKeyFromLabel("Create agents"), null);
   assert.equal(toolKeyFromLabel("Readme"), null);
   assert.equal(toolKeyFromLabel("Shell npm test"), null);
   assert.equal(toolKeyFromLabel("Lesen"), null);

@@ -108,7 +108,7 @@ into it, read the DOM and take screenshots. It is off by default.
 
 ```bash
 paseo daemon config set features.webUi.enabled true
-paseo daemon restart   # Paseo 0.10.1 only applies this setting on restart
+paseo daemon restart   # Paseo 0.12.0 still applies this setting only on restart
 curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:6767/   # 200 once it is on
 ```
 

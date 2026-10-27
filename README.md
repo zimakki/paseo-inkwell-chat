@@ -2,8 +2,9 @@
 
 A Paseo plugin that adds color to the agent chat. Headings, bold, inline code, links, blockquotes
 and list bullets each get their own color, and so does each kind of tool row (Shell, Read, Edit,
-MCP tools, and so on). The palette comes from [inkwell](https://github.com/zimakki/inkwell), a
-markdown renderer.
+MCP tools, and so on). Your own messages get a color of their own and open Thinking blocks fade
+back, so your last message is easy to find when you scroll up. The palette comes from
+[inkwell](https://github.com/zimakki/inkwell), a markdown renderer.
 
 Paseo draws all of that in one foreground color, which makes a long agent reply slow to scan.
 This plugin fixes that without redrawing anything. It injects a stylesheet into Paseo's own page,
@@ -20,8 +21,12 @@ so file links, Cmd+F, copy, code highlighting and the tool detail sheet keep wor
 | Blockquote bar                        | `#ff757f`                                       |
 | List bullets                          | `#565f89`                                       |
 | Tool rows                             | one color per tool, for the icon and label only |
+| Your messages                         | `#fab387` fill, outline and "You" label         |
+| Chat outline dashes                   | `#fab387`, solid for the current message        |
+| Open Thinking                         | no box, dim italic `#7f849c` text               |
 
-The colors are tuned for a dark Paseo theme. There is no light palette yet.
+The colors are tuned for a dark Paseo theme. There is no light palette yet. Messages another agent
+sent you keep Paseo's look, so only what you typed is peach.
 
 ## Install
 
@@ -65,6 +70,11 @@ renames them, the colors disappear, but nothing breaks.
 | `[data-testid="tool-call-badge"]`                            | a tool row                              |
 | first element with its own text inside a tool row            | the tool label (`Shell`, `Read`, ...)   |
 | first `svg` inside a tool row                                | the tool icon, colored through `stroke` |
+| `[data-testid="user-message"]` > content > bubble            | your messages                           |
+| the bubble holds `[data-message-text]`                       | finds the bubble inside the message     |
+| a `button` as a direct child of the message content          | marks a message another agent sent      |
+| a Thinking row's header `button` and its second child        | the open Thinking body                  |
+| `[data-testid^="chat-outline-tick-"]` with `aria-selected`   | the chat outline dashes                 |
 
 Since 0.12, rows for Paseo's own MCP tools show friendly labels such as `Run JavaScript` instead
 of `mcp__paseo__*`. `shared/tool-key.ts` lists them, copied from `PASEO_TOOL_CATALOG` in Paseo's

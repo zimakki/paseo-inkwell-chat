@@ -27,6 +27,9 @@ export const INKWELL_CSS: string = `
   --ink-tool-worktree-setup: #c3e88d;
   --ink-tool-skill: #ff007c;
   --ink-tool-mcp: #41a6b5;
+  --ink-you: #fab387;
+  --ink-thinking-text: #7f849c;
+  --ink-thinking-line: #45475a;
 }
 
 [data-testid="assistant-message"] h1,
@@ -77,4 +80,46 @@ export const INKWELL_CSS: string = `
 [data-inkwell-tool] [data-inkwell-label] { color: var(--ink-tool) !important; }
 [data-inkwell-tool] [data-inkwell-icon],
 [data-inkwell-tool] [data-inkwell-icon] * { color: var(--ink-tool) !important; stroke: var(--ink-tool) !important; }
+
+/* Your own messages: user-message > content > bubble. A message another agent sent also has a
+   sender button in its content, so it keeps Paseo's look. */
+[data-testid="user-message"]:not(:has(> div > :is(button, [role="button"]))) > div > div:has([data-message-text]) {
+  background-color: color-mix(in srgb, var(--ink-you) 17%, transparent) !important;
+  border: 1.5px solid color-mix(in srgb, var(--ink-you) 75%, transparent) !important;
+}
+[data-testid="user-message"]:not(:has(> div > :is(button, [role="button"]))) > div::before {
+  content: "You";
+  color: var(--ink-you);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 6px;
+  padding-right: 4px;
+}
+
+/* Open Thinking reads as background: no box, dim italic text, a line down the left. */
+[data-inkwell-tool="thinking"] > button {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+[data-inkwell-tool="thinking"] > :not(button) {
+  border: 0 !important;
+  border-left: 2px solid var(--ink-thinking-line) !important;
+  border-radius: 0 !important;
+  margin-left: 12px !important;
+}
+[data-inkwell-tool="thinking"] > :not(button) * {
+  background-color: transparent !important;
+  color: var(--ink-thinking-text) !important;
+  font-style: italic !important;
+}
+
+/* Outline rail, one dash per message you sent: soft in your color, the current one solid. */
+[data-testid^="chat-outline-tick-"] > div {
+  background-color: color-mix(in srgb, var(--ink-you) 45%, transparent) !important;
+}
+[data-testid^="chat-outline-tick-"][aria-selected="true"] > div,
+[data-testid^="chat-outline-tick-"]:hover > div {
+  background-color: var(--ink-you) !important;
+}
 `;

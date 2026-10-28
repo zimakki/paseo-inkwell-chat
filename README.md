@@ -1,5 +1,9 @@
 # Paseo Inkwell Chat
 
+| Before                                                                                 | After                                                                                                      |
+| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| ![A Paseo chat in one text color, with a boxed Thinking block](screenshots/before.png) | ![The same chat with colored markdown, a peach message from you and quiet Thinking](screenshots/after.png) |
+
 A Paseo plugin that adds color to the agent chat. Headings, bold, inline code, links, blockquotes
 and list bullets each get their own color, and so does each kind of tool row (Shell, Read, Edit,
 MCP tools, and so on). Your own messages get a color of their own and open Thinking blocks fade
